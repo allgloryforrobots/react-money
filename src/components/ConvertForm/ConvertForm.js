@@ -3,39 +3,27 @@ import {Form, Input, Select} from 'antd'
 
 const {Option} = Select
 
-const PriceInput = ({value = {}, onChange, moneyData}) => {
+const PriceInput = ({value = {}, onChange, DailyJson}) => {
     const [number, setNumber] = useState(0)
     const [currency, setCurrency] = useState('RUB')
     const [currency2, setCurrency2] = useState('RUB')
 
-    // arr.unshift(...items) – добавляет элементы в начало.
-    // let user = users.find(item => item.id == 1);
-    // arr.splice(1, 1); // начиная с позиции 1, удалить 1 элемент
-
     // Сортируем элементы массива MoneyData, чтобы часто исп. валюты оказались наверху
-    const jpyData = moneyData.find(item => item.CharCode === 'JPY')
-    const gbpData = moneyData.find(item => item.CharCode === 'GBP')
-    const euroData = moneyData.find(item => item.CharCode === 'EUR')
-    const usdData = moneyData.find(item => item.CharCode === 'USD')
-
-    const jpyDataIndex = moneyData.findIndex(item => item.CharCode === 'JPY')
-    const gbpDataIndex = moneyData.findIndex(item => item.CharCode === 'GBP')
-    const euroDataIndex = moneyData.findIndex(item => item.CharCode === 'EUR')
-    const usdDataIndex = moneyData.findIndex(item => item.CharCode === 'USD')
-
-
-        const sortMoneyData = [...moneyData]
-        sortMoneyData.splice(jpyDataIndex, 1)
-        sortMoneyData.unshift(jpyData)
-        sortMoneyData.splice(euroDataIndex, 1)
-        sortMoneyData.unshift(euroData)
-        sortMoneyData.splice(usdDataIndex, 1)
-        sortMoneyData.unshift(usdData)
-        sortMoneyData.splice(gbpDataIndex, 1)
-        sortMoneyData.unshift(gbpData)
-
-
-
+    const sortDailyJson = [...DailyJson]
+    const orderElements = [
+        {code: 'CNY'},
+        {code: 'GBP'},
+        {code: 'EUR'},
+        {code: 'USD'},
+    ]
+    orderElements.forEach((item, index) => {
+        orderElements[index].data = DailyJson.find(item => item.CharCode === orderElements[index].code)
+        orderElements[index].dataIndex = DailyJson.findIndex(item => item.CharCode === orderElements[index].code)
+    })
+    orderElements.forEach((item, index) => {
+        sortDailyJson.splice(orderElements[index].dataIndex, 1)
+        sortDailyJson.unshift(orderElements[index].data)
+    })
 
 
     const triggerChange = (changedValue) => {
@@ -107,11 +95,11 @@ const PriceInput = ({value = {}, onChange, moneyData}) => {
           <Option key='RUB'
                   value='RUB'><strong>RUS&nbsp;</strong> Российский рубль</Option>
           {
-              sortMoneyData.map((el, index) => {
+              sortDailyJson.map((el, index) => {
                   return (
                       <Option key={Math.random() + 'currency'}
-                              value={sortMoneyData[index].CharCode}>
-                          <strong>{sortMoneyData[index].CharCode}&nbsp;</strong> {sortMoneyData[index].Name}
+                              value={sortDailyJson[index].CharCode}>
+                          <strong>{sortDailyJson[index].CharCode}&nbsp;</strong> {sortDailyJson[index].Name}
                       </Option>
                   )
               })
@@ -132,11 +120,11 @@ const PriceInput = ({value = {}, onChange, moneyData}) => {
           <Option key='RUB'
                   value='RUB'><strong>RUS&nbsp;</strong> Российский рубль</Option>
           {
-              sortMoneyData.map((el, index) => {
+              sortDailyJson.map((el, index) => {
                   return (
                       <Option key={Math.random() + 'currency2'}
-                              value={sortMoneyData[index].CharCode}>
-                          <strong>{sortMoneyData[index].CharCode}&nbsp;</strong> {sortMoneyData[index].Name}
+                              value={sortDailyJson[index].CharCode}>
+                          <strong>{sortDailyJson[index].CharCode}&nbsp;</strong> {sortDailyJson[index].Name}
                       </Option>
                   )
               })
@@ -151,7 +139,7 @@ const ConvertForm = (props) => {
 
     const onValuesChange = (changedValues) => {
         console.log('Получены данные из формы: onValuesChange', changedValues)
-        props.stateEasy(changedValues)
+        props.setFormResults(changedValues)
     }
 
     const checkPrice = (rule, value) => {
@@ -160,7 +148,7 @@ const ConvertForm = (props) => {
         }
 
         return Promise.reject('Число должно быть больше нуля!')
-    };
+    }
 
     return (
         <Form
@@ -183,7 +171,7 @@ const ConvertForm = (props) => {
                     },
                 ]}
             >
-                <PriceInput moneyData={props.moneyData}/>
+                <PriceInput DailyJson={props.DailyJson}/>
             </Form.Item>
 
         </Form>

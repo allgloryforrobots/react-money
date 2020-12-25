@@ -38,7 +38,7 @@ export default class BLL extends React.PureComponent {
     }
 
     // Передаем функцию через пропсы => потомок передает данные в стейт
-    setDataToState = (values) => {
+    setFormResults = (values) => {
         const resultCash = this.recalculateResultCash(values.calcForm)
         this.setState((state) => {
             //TODO: мутирую стейт? исправить?
@@ -57,10 +57,9 @@ export default class BLL extends React.PureComponent {
         Promise.all([ dal.getDailyJson(), dal.getLatestJson() ])
             .then(values => {
                 //first return value
-                this.templateName = values[0]
                 this.setState((state) => {
                     return {
-                        moneyData: Object.values(values[0].data.Valute),
+                        DailyJson: Object.values(values[0].data.Valute),
                         isLoadingData1: true
                     }
                 })
@@ -68,7 +67,7 @@ export default class BLL extends React.PureComponent {
                 //second return value
                 this.setState((state) => {
                     return {
-                        moneyJsData: values[1].data,
+                        LatestJson: values[1].data,
                         isLoadingData2: true
                     }
                 })
@@ -104,22 +103,17 @@ export default class BLL extends React.PureComponent {
 
             }}>
 
-                {/*<button*/}
-                {/*    onClick={() =>this.recalculateValute(1, 'USD', "RUB")}>*/}
-                {/*    ТЕСТ*/}
-                {/*</button>*/}
-
                 {this.state.isLoadingData1 && this.state.isLoadingData2
                     ? <div>
                         <Alert
-                            message={`Получены курсы валют на ${this.state.moneyJsData.date}`}
+                            message={`Получены курсы валют на ${this.state.LatestJson.date}`}
                             type="success"
                             style={{marginBottom: "50px"}}
                             showIcon />
                         <ConvertForm
                             calcForm={this.state.calcForm}
-                            moneyData={this.state.moneyData}
-                            stateEasy={this.setDataToState}
+                            DailyJson={this.state.DailyJson}
+                            setFormResults={this.setFormResults}
                         />
                         <Statistic title="Результат"
                                    style={{textAlign: "center"}}
@@ -133,32 +127,10 @@ export default class BLL extends React.PureComponent {
                         <span>Соединение с сервером...</span>
                      </div>
                 }
-
             </div>
-
         )
     }
 }
 
-// {this.state.moneyData
-//     ? this.moneyItems(dataArr)
-//     : <Button type="primary" loading>
-//         Loading
-//     </Button>}
-
-//
-// moneyItems = (dataArr) => dataArr.map(el =>
-//     <li key={el.ID}>
-//         <strong>
-//             {el.CharCode}
-//         </strong>&nbsp;
-//         <span>
-//                     {el.Name}
-//                 </span>
-//     </li>
-// )
-
-// Преобразуем данные из стейта в разметку
-// const dataArr = this.state.moneyData
 
 
