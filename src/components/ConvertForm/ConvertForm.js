@@ -1,12 +1,10 @@
 import React, {useState} from 'react'
 import {Form, Input, Select} from 'antd'
+import SyncOutlined from "@ant-design/icons/lib/icons/SyncOutlined";
 
 const {Option} = Select
 
 const PriceInput = ({value = {}, onChange, DailyJson}) => {
-    const [number, setNumber] = useState(0)
-    const [currency, setCurrency] = useState('RUB')
-    const [currency2, setCurrency2] = useState('RUB')
 
     // Сортируем элементы массива MoneyData, чтобы часто исп. валюты оказались наверху
     const sortDailyJson = [...DailyJson]
@@ -22,8 +20,16 @@ const PriceInput = ({value = {}, onChange, DailyJson}) => {
     })
     orderElements.forEach((item, index) => {
         sortDailyJson.splice(orderElements[index].dataIndex, 1)
+
+    })
+    orderElements.forEach((item, index) => {
+
         sortDailyJson.unshift(orderElements[index].data)
     })
+
+    const [number, setNumber] = useState(0)
+    const [currency, setCurrency] = useState('RUB')
+    const [currency2, setCurrency2] = useState('RUB')
 
 
     const triggerChange = (changedValue) => {
@@ -72,66 +78,68 @@ const PriceInput = ({value = {}, onChange, DailyJson}) => {
         triggerChange({
             currency2: newCurrency2,
         })
+
     }
 
+
     return (
-        <div style={{marginBottom: "10px"}}>
-      <Input
-          type="tel"
-          value={value.number || number}
-          onChange={onNumberChange}
-          style={{
-              width: 120,
-          }}
-      />
-      <Select
-          value={value.currency || currency}
-          style={{
-              width: 250,
-              margin: '0 8px',
-          }}
-          onChange={onCurrencyChange}
-      >
-          <Option key='RUB'
-                  value='RUB'><strong>RUS&nbsp;</strong> Российский рубль</Option>
-          {
-              sortDailyJson.map((el, index) => {
-                  return (
-                      <Option key={Math.random() + 'currency'}
-                              value={sortDailyJson[index].CharCode}>
-                          <strong>{sortDailyJson[index].CharCode}&nbsp;</strong> {sortDailyJson[index].Name}
-                      </Option>
-                  )
-              })
-          }
-      </Select>
+        <>
+            <Input
+                type="tel"
+                value={value.number || number}
+                onChange={onNumberChange}
+                style={{
+                    width: 120,
+                    margin: "5px"
+                }}
+            />
 
-            <span>=</span>
+            <Select
+                value={value.currency || currency}
+                style={{
+                    width: 270,
+                    margin: "5px"
+                }}
+                onChange={onCurrencyChange}
+            >
+                <Option key='RUB'
+                        value='RUB'><strong>RUS&nbsp;</strong> Российский рубль</Option>
+                {
+                    sortDailyJson.map((el, index) => {
+                        return (
+                            <Option key={Math.random() + 'currency'}
+                                    value={sortDailyJson[index].CharCode}>
+                                <strong>{sortDailyJson[index].CharCode}&nbsp;</strong> {sortDailyJson[index].Name}
+                            </Option>
+                        )
+                    })
+                }
+            </Select>
 
-      <Select
+            <SyncOutlined style={{color: "yellowgreen", margin: "5px", fontSize: "1rem"}}/>
 
-          value={value.currency2 || currency2}
-          style={{
-              width: 250,
-              margin: '0 8px',
-          }}
-          onChange={onCurrencyChange2}
-      >
-          <Option key='RUB'
-                  value='RUB'><strong>RUS&nbsp;</strong> Российский рубль</Option>
-          {
-              sortDailyJson.map((el, index) => {
-                  return (
-                      <Option key={Math.random() + 'currency2'}
-                              value={sortDailyJson[index].CharCode}>
-                          <strong>{sortDailyJson[index].CharCode}&nbsp;</strong> {sortDailyJson[index].Name}
-                      </Option>
-                  )
-              })
-          }
-      </Select>
-
-    </div>
+            <Select
+                value={value.currency2 || currency2}
+                style={{
+                    width: 270,
+                    margin: "5px"
+                }}
+                onChange={onCurrencyChange2}
+            >
+                <Option key='RUB'
+                        value='RUB'><strong>RUS&nbsp;</strong> Российский рубль</Option>
+                {
+                    sortDailyJson.map((el, index) => {
+                        return (
+                            <Option key={Math.random() + 'currency2'}
+                                    value={sortDailyJson[index].CharCode}>
+                                <strong>{sortDailyJson[index].CharCode}&nbsp;</strong> {sortDailyJson[index].Name}
+                            </Option>
+                        )
+                    })
+                }
+            </Select>
+        </>
     )
 }
 
@@ -153,7 +161,7 @@ const ConvertForm = (props) => {
     return (
         <Form
             name="customized_form_controls"
-            layout="inline"
+            layout="vertical"
             onValuesChange={onValuesChange}
             initialValues={{
                 calcForm: {
@@ -164,7 +172,6 @@ const ConvertForm = (props) => {
         >
             <Form.Item
                 name="calcForm"
-                label="У меня есть"
                 rules={[
                     {
                         validator: checkPrice,

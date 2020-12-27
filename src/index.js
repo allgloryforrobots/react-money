@@ -5,9 +5,9 @@ import BLL from './BLL/BLL';
 import reportWebVitals from './reportWebVitals';
 
 ReactDOM.render(
-  // <React.StrictMode>
+  <React.StrictMode>
     <BLL />,
-  // </React.StrictMode>
+  </React.StrictMode>,
   document.getElementById('root')
 );
 
