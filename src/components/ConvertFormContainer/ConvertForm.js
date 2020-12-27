@@ -1,13 +1,15 @@
 import React from 'react'
 import {Form, Input, Select} from 'antd'
-import SyncOutlined from "@ant-design/icons/lib/icons/SyncOutlined";
+import SyncOutlined from "@ant-design/icons/lib/icons/SyncOutlined"
 
 const {Option} = Select
 
-const ConvertForm = ({
-                         DailyJson, cash, currency, currency2, setCash,
-                         setCurrency, setCurrency2, setReversedCurrencies
-                     }) => {
+export const ConvertForm = ({ DailyJson, cash, currency, currency2,
+                         setCash, setCurrency, setCurrency2,
+                         setReversedCurrencies}) => {
+
+
+
 
     // Сортируем элементы массива MoneyData, чтобы часто исп. валюты оказались наверху
     const sortDailyJson = [...DailyJson]
@@ -38,7 +40,6 @@ const ConvertForm = ({
         setCash(newNumber)
     }
 
-
     return (
         <Form
             name="customized_form_controls"
@@ -61,6 +62,7 @@ const ConvertForm = ({
                             width: 270,
                             margin: "5px"
                         }}
+                        // Здесь value от API ant Design = не путай с тем же в селекте :)
                         onChange={(value) => setCurrency(value)}
                     >
                         <Option key='RUB'
@@ -77,7 +79,7 @@ const ConvertForm = ({
                         }
                     </Select>
 
-                    <SyncOutlined onClick={() => setReversedCurrencies()}
+                    <SyncOutlined onClick={() => setReversedCurrencies(currency, currency2)}
                                   style={{color: "yellowgreen", margin: "5px", fontSize: "1rem"}}/>
 
                     <Select
@@ -106,4 +108,4 @@ const ConvertForm = ({
     )
 }
 
-export default ConvertForm
+

@@ -1,13 +1,19 @@
-import {Component} from "react";
-
+import {Component} from "react"
 const axios = require('axios')
+
+const instance = axios.create({
+
+    baseURL: 'https://www.cbr-xml-daily.ru/',
+
+})
 
 
 export default class DAL extends Component {
+
     async getDailyJson() {
-            return await axios.get('https://www.cbr-xml-daily.ru/daily_json.js')
+            return await instance.get('daily_json.js')
     }
     async getLatestJson() {
-            return await axios.get('https://www.cbr-xml-daily.ru/latest.js')
+            return await instance.get('latest.js')
     }
 }
