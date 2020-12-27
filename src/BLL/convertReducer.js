@@ -1,5 +1,6 @@
 import DAL from "../DAL/DAL"
-
+// Функция конвертирующая валюту
+const fx = require("money")
 // Ducks: Redux Reducer Bundles
 
 // Actions
@@ -11,17 +12,6 @@ const SET_LOAD_END = 'convertReducer/SET_LOAD_END'
 const SET_LOAD_ERROR = 'convertReducer/SET_LOAD_ERROR'
 const SET_DAILY_JSON = 'convertReducer/SET_DAILY_JSON'
 const SET_LATEST_JSON = 'convertReducer/SET_LATEST_JSON'
-
-// Метод конвертирующий валюту
-const fx = require("money")
-const recalculateResultCash = (cash, currency, currency2) => {
-    if (currency === currency2) {
-        return cash
-    } else {
-        return fx(cash)
-            .convert({ from: currency , to: currency2 })
-    }
-}
 
 //Reducer
 let initialState = {

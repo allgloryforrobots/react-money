@@ -1,7 +1,7 @@
 import {ServerOkContainer} from "../ServerOkContainer/ServerOkContainer";
 import {ConvertFormContainer} from "../ConvertFormContainer/ConvertFormContainer";
 import {CalcResultsContainer} from "../CalcResultsContainer/CalcResultsContainer";
-import {FirstLoad} from "../loaders/FirstLoadContainer";
+import {FirstLoad} from "../loaders/FirstLoad";
 import {LoadErrorContainer} from "../loaders/LoadError";
 import React from "react";
 

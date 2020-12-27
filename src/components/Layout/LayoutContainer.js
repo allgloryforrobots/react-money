@@ -4,11 +4,12 @@ import 'antd/dist/antd.css'
 import {connect} from "react-redux"
 import {compose} from "redux"
 import {Layout} from "./Layout"
+import {getIsLoadingData} from "../../BLL/selectors";
 
 
 const mapStateToProps = (state) => {
     return ({
-        isLoadingData: state.convertPage.isLoadingData,
+        isLoadingData: getIsLoadingData(state) //state.convertPage.isLoadingData,
     })
 }
 
