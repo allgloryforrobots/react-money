@@ -2,5 +2,6 @@
 
 ### Приложение конвертирующее валюту
 
-Стек: React, axios, Ant Design, money.js
+Стек: React, Redux, React-redux, redux-thunk, 
+selectors, axios, money.js, Ant Design. 
 

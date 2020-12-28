@@ -1,7 +1,7 @@
 import {connect, Provider} from "react-redux";
 import store from "./BLL/redux-store";
 import React, {Component} from 'react'
-import {LayoutContainer} from "./components/Layout/LayoutContainer";
+import {LayoutContainer} from "./UI/Layout/LayoutContainer";
 import {compose} from "redux";
 import {InitAppThunkCreator} from "./BLL/convertReducer";
 
